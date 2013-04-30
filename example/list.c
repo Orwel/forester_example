@@ -34,9 +34,6 @@ void finalizeList(Node * list)
 /// Ajoute un noeud à la liste. Retourne le nouveau noeud
 Node * addNode(Node * list,int value)
 {
-	if(list == NULL)
-		return initializeList(value);
-
 	Node * node = initializeList(value);
 	while(list->next!=NULL)
 		list=list->next;
@@ -89,6 +86,9 @@ void DisplayList(Node * list)
 
 int main()
 {
-	initializeList(1);
+	Node * list = initializeList(1);
+	Node * node1 = addNode(list,2);
+	list = removeNode(list,list);
+	finalizeList(list);
 	return 0;
 }
