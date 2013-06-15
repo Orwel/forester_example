@@ -1,0 +1,32 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage{graphicx}
+
+\usepackage{glossaries}
+\makeglossaries
+\input{glossaire}
+
+\begin{document}
+\title{Example de LaTeX}
+\author{Cédric Vernou\\
+Programmeur émérite}
+
+\maketitle
+\tableofcontents
+\newpage
+
+Voici un court example mettant en scéne la génération de la table des matières, de la bibliographie, d'un index et d'un glossaire\cite{ARTMCCDDS}.
+Enjoy \gls{electrolyte}.
+
+\input{Chapter/Chapter1.tex}
+\input{Chapter/Chapter2.tex}
+
+
+\printglossaries
+
+\bibliographystyle{plain}
+\bibliography{biblio}
+\addcontentsline{toc}{chapter}{Bibliographie}
+
+\end{document}
