@@ -1,0 +1,113 @@
+\section {Forester fonctionnalities}
+
+	\subsection{Type primitif}
+
+The manage of type primitif in Forester is not again implemented. If you use pointer on primitif type, Forester return this error :
+
+\begin{lstlisting}
+	int * integer = malloc(sizeof(int));
+\end{lstlisting}
+\bigskip
+
+Forester return this resultat:
+\begin{lstlisting}
+error: BoxMan::getTypeInfo(): type for int not found!
+\end{lstlisting}
+\bigskip
+
+
+The reason is primitif types have different representation in GCC. Them, Forester can not recognize its. This fonctionnality is comming soon.
+\\
+
+But presentely, you can get around this problem with this solution :
+\begin{lstlisting}
+	struct T { int n; }* p_int;
+	p_int = malloc(sizeof(*p_int));
+	p_int->n = 10;
+	free(p_int);
+\end{lstlisting}
+\bigskip
+
+	\subsection{To use no allocated structure}
+	
+Before use dynamic structure, he need to be allocated in memory. Forester check if all stucture are corectely allocated before she is used. This example show dynamic stucture who are used without allocation:
+\begin{lstlisting}
+	struct T { int n; }* pmi;
+	pmi->n = 10;
+\end{lstlisting}
+\bigskip
+
+In this case, Forester return this error:
+\begin{lstlisting}
+unallocated\_structure.c:7:9: note: #2317:pmi->n = (int)10
+unallocated\_structure.c:7:9: error: dereferenced value is not a valid 
+	reference [(undef)]
+\end{lstlisting}
+\bigskip
+
+	\subsection{Dynamic structure not desallocated}
+	
+Forester can find when a dynamic structure, who is correctely allocated, is not desallocated. In this example, pmi is allocated but this structure is not allocated and the reference is lost after function's end :
+
+\begin{lstlisting}
+	struct T { int n; }* pmi;
+	pmi = malloc(sizeof(*pmi));
+	pmi->n = 10;
+	return;
+\end{lstlisting}
+\bigskip
+
+In this case, Forester return this error:
+
+\begin{lstlisting}
+error: garbage detected
+\end{lstlisting}
+\bigskip
+
+	\subsection{Reference to dynamic structure no catch in return of function}
+	
+Sometime, a function allocate a dynamic structure and return the reference. In this case, it is important catch this reference to desallocated this dynamic structure. Forester check if all reference return by function is correctely catch.
+
+\begin{lstlisting}
+	struct T { int n; };
+	typedef struct T T;
+
+	T * foe()
+	{
+		return malloc(sizeof(T));
+	}
+
+	int main()
+	{
+		foe();
+		return 0;
+	}
+\end{lstlisting}
+\bigskip
+
+In this case, Forester return this error:
+
+\begin{lstlisting}
+error: assertion failed
+\end{lstlisting}
+\bigskip
+
+This fonctionnality is user-friendly to avoid memory leaks. But it is posible function return reference to structure who are not allocated in this function. Forester return same error this return is not catch.
+
+\begin{lstlisting}
+	struct T { int n; };
+	typedef struct T T;
+
+	T * foe(T * t)
+	{
+		return t;
+	}
+
+	int main()
+	{
+		T t;
+		foe(&t);
+		return 0;
+	}
+\end{lstlisting}
+\bigskip

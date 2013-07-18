@@ -1,0 +1,45 @@
+\section {Use Forester}
+
+	\subsection{To use}
+
+Forester is plugin GCC, you can use this command to load plugin in GCC and check code source :
+
+gcc -fplugin=libfa.so
+\\
+
+But Forester is provided with some script for ease of use. In the first place, you need config some variable in console with this script "./fa\_build/register-paths.sh". You can use this command :
+
+. ./fa\_build/register-paths.sh
+\\
+
+This script add path in you terminal to other script to execute easy Forester. Now, you can use Forester scripts to execute GCC and to load Forester. The main script is :
+
+fagcc main.c
+\\
+
+	\subsection{Some remarks}
+	
+This scrips are really easy to use, but they have default. You can check one file at at time.
+
+Other remark who are problemtatic with the precedent, the only file in parameter have to containt the method main. Else Forester return this error :
+
+\lstset{language=C, numbers=left, frame=shadowbox}
+\begin{lstlisting}
+error: main() not found at global scope
+\end{lstlisting}
+\bigskip
+
+A method to check your files, it is use a other file forester.c and include all files. In forester.c, write main method where you call all methods you want test.
+
+\lstset{language=C, numbers=left, frame=shadowbox}
+\begin{lstlisting}
+	#include "list.c"
+
+	int main()
+	{
+		Node * list = initializeList(1);
+		finalizeList(list);
+		return 0;
+	}
+\end{lstlisting}
+\bigskip
