@@ -1,7 +1,7 @@
 #indique la version mimimun pour utiliser UseLaTeX
 cmake_minimum_required(VERSION 2.8)
 #Indique le chemin de compilation
-set(LATEX_OUTPUT_PATH "D:/Developpement/Projet/UseLATEX_example/Build")
+set(LATEX_OUTPUT_PATH "./Build")
 #Type de projet
 PROJECT(MyDoc NONE)
 
