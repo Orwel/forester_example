@@ -2,7 +2,7 @@
 
 	\subsection{Type primitif}
 
-The manage of type primitif in Forester is not again implemented. If you use pointer on primitif type, Forester return this error :
+The manage of primitif type in Forester is not implemented yet. If you use pointer on primitif type, Forester returns this error :
 
 \begin{lstlisting}
 	int * integer = malloc(sizeof(int));
@@ -16,7 +16,7 @@ error: BoxMan::getTypeInfo(): type for int not found!
 \bigskip
 
 
-The reason is primitif types have different representation in GCC. Them, Forester can not recognize its. This fonctionnality is comming soon.
+The reason is primitif types have different representation in GCC and so Forester cans not recognize it. This fonctionnality is comming soon.
 \\
 
 But presentely, you can get around this problem with this solution :
@@ -30,7 +30,7 @@ But presentely, you can get around this problem with this solution :
 
 	\subsection{To use no allocated structure}
 	
-Before use dynamic structure, he need to be allocated in memory. Forester check if all stucture are corectely allocated before she is used. This example show dynamic stucture who are used without allocation:
+Before using dynamic structure, it needs to be allocated in memory. Forester checks if all dynamic stuctures are correctely allocated before they can be used. This example shows dynamic stucture which are used without allocation:
 \begin{lstlisting}
 	struct T { int n; }* pmi;
 	pmi->n = 10;
@@ -47,7 +47,7 @@ unallocated\_structure.c:7:9: error: dereferenced value is not a valid
 
 	\subsection{Dynamic structure not desallocated}
 	
-Forester can find when a dynamic structure, who is correctely allocated, is not desallocated. In this example, pmi is allocated but this structure is not allocated and the reference is lost after function's end :
+Forester cans check when a dynamic structure, who is correctely allocated, is not desallocated. In this example, pmi is allocated but this structure is not desallocated and the reference is lost after function's end :
 
 \begin{lstlisting}
 	struct T { int n; }* pmi;
@@ -57,7 +57,7 @@ Forester can find when a dynamic structure, who is correctely allocated, is not 
 \end{lstlisting}
 \bigskip
 
-In this case, Forester return this error:
+In this case, Forester returns this error:
 
 \begin{lstlisting}
 error: garbage detected
@@ -66,7 +66,7 @@ error: garbage detected
 
 	\subsection{Reference to dynamic structure no catch in return of function}
 	
-Sometime, a function allocate a dynamic structure and return the reference. In this case, it is important catch this reference to desallocated this dynamic structure. Forester check if all reference return by function is correctely catch.
+Sometime, a function allocates a dynamic structure and returns the reference. In this case, it is important to catch this reference in the aim of desallocating this dynamic structure. Forester checks if all references returned by function are correctely caught.
 
 \begin{lstlisting}
 	struct T { int n; };
@@ -85,14 +85,14 @@ Sometime, a function allocate a dynamic structure and return the reference. In t
 \end{lstlisting}
 \bigskip
 
-In this case, Forester return this error:
+In this case, Forester returns this error:
 
 \begin{lstlisting}
 error: assertion failed
 \end{lstlisting}
 \bigskip
 
-This fonctionnality is user-friendly to avoid memory leaks. But it is posible function return reference to structure who are not allocated in this function. Forester return same error this return is not catch.
+This fonctionnality is user-friendly to avoid memory leaks. But it is possible function returns one reference to structure which are not allocated in this function. Forester returns the same error when this return is not caught.
 
 \begin{lstlisting}
 	struct T { int n; };
